@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Wireframe Móvil Taller React - Inscripción</title>
+  <style>
+  :root {
+    /* Perplexity Design System variables + custom overrides for teal (#1A7480) */
+    --color-primary: #1A7480;
+    --color-primary-hover: #176470;
+    --color-primary-active: #144c5a;
+    --color-btn-primary-text: #fff;
+    --font-size-xs: 11px;
+    --font-size-sm: 12px;
+    --font-size-base: 14px;
+    --font-size-lg: 16px;
+    --font-size-xl: 18px;
+    --font-size-2xl: 20px;
+    --font-size-3xl: 24px;
+    --radius-base: 8px;
+    --radius-lg: 12px;
+    --radius-full: 9999px;
+    --color-bg-1: #F3FBFB;
+    --color-bg-success: #DCF3EA;
+    --color-error: #B4413C;
+    --color-success: #1A7480;
+    --color-border: #E0E7EA;
+    --color-surface: #fff;
+    --color-background: #FAFAFA;
+    --color-text: #13343B;
+    --color-text-secondary: #5D878F;
+    --shadow-xs: 0 1px 2px rgba(0,0,0,.03);
+    --shadow-sm: 0 2px 8px rgba(0,0,0,.07);
+    --focus-ring: 0 0 0 2px #33B8CD44;
+  }
+  html, body {
+    background: var(--color-background);
+    color: var(--color-text);
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    font-size: var(--font-size-base);
+    margin: 0; padding: 0;
+  }
+  body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .mobile-frame {
+    width: 375px;
+    min-height: 100vh;
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .screen {
+    display: none;
+    padding: 24px;
+    flex: 1 1 auto;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+    background: var(--color-surface);
+    animation: fadein .25s ease;
+  }
+  .screen.active {
+    display: flex;
+  }
+  @keyframes fadein {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .progress-bar {
+    width: 100%;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background: #E5F7F8;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .progress-bar__fill {
+    height: 100%;
+    border-radius: var(--radius-full);
+    background: var(--color-primary);
+    transition: width .2s;
+  }
+  .step-indicator {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+    justify-content: center;
+  }
+  .step-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #E0EBEA;
+    transition: background .2s;
+  }
+  .step-dot.active { background: var(--color-primary); }
+  .screen-title {
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+  .workshop-title {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .workshop-date {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-base);
+    margin-bottom: 8px;
+  }
+  .workshop-spots {
+    font-size: var(--font-size-base);
+    margin-bottom: 2px;
+    color: var(--color-success);
+    font-weight: 500;
+  }
+  .workshop-price {
+    font-size: var(--font-size-base);
+    color: var(--color-primary);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .requirements-list {
+    list-style: none;
+    padding: 0 0 8px 0;
+    margin: 0;
+  }
+  .requirements-list li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+  }
+  .requirements-list .icon-check {
+    color: var(--color-success);
+    font-size: 18px;
+  }
+  .btn {
+    background: var(--color-primary);
+    color: var(--color-btn-primary-text);
+    padding: 12px 0;
+    border: none;
+    border-radius: var(--radius-base);
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+    width: 100%;
+    box-shadow: var(--shadow-xs);
+    cursor: pointer;
+    transition: background .2s;
+    margin-top: 12px;
+    outline: none;
+  }
+  .btn:focus {
+    box-shadow: var(--focus-ring);
+  }
+  .btn:active {
+    background: var(--color-primary-active);
+  }
+  .btn-secondary {
+    background: #F3FBFB;
+    color: var(--color-primary);
+    border: 1px solid var(--color-border);
+  }
+  .btn-tertiary {
+    background: transparent;
+    color: var(--color-primary);
+    border: none;
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    margin-top: 2px;
+    text-align: left;
+    padding: 0;
+    display: inline;
+  }
+  .help-link {
+    color: var(--color-primary);
+    font-size: var(--font-size-sm);
+    margin-top: 10px;
+    display: inline-block;
+    text-decoration: underline;
+  }
+  .validations-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 12px 0;
+  }
+  .validations-list li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--font-size-base);
+    margin-bottom: 6px;
+    color: var(--color-success);
+    font-weight: 500;
+  }
+  .validation-success {
+    color: var(--color-success);
+    font-size: 22px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .screen-success {
+    text-align: center;
+    padding-top: 32px;
+  }
+  .icon-success {
+    display: inline-block;
+    background: var(--color-bg-success);
+    color: var(--color-success);
+    border-radius: 50%;
+    font-size: 34px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  .confirmation-num {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--color-success);
+    margin-bottom: 8px;
+  }
+  .confirmation-email {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    margin-bottom: 8px;
+  }
+  .reminder-msg {
+    background: #E5F7F8;
+    color: var(--color-primary);
+    border-radius: var(--radius-base);
+    padding: 12px;
+    margin: 16px 0 12px 0;
+    font-size: var(--font-size-base);
+    text-align: center;
+  }
+
+  /* Form styles */
+  .form {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .form-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .form-input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: var(--radius-base);
+    border: 1px solid var(--color-border);
+    font-size: var(--font-size-base);
+    font-family: inherit;
+    margin-bottom: 2px;
+    outline: none;
+    background: var(--color-bg-1);
+    color: var(--color-text);
+    transition: border-color .15s;
+  }
+  .form-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: var(--focus-ring);
+  }
+  .input-check {
+    color: var(--color-success);
+    font-size: 19px;
+    vertical-align: middle;
+    margin-left: 4px;
+  }
+  .form-error {
+    color: var(--color-error);
+    font-size: var(--font-size-sm);
+    margin-top: -4px;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .phone-placeholder {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    margin-bottom: 2px;
+  }
+  /* Placeholder gris suave para inputs */
+  .form-input::placeholder {
+    color: #9ca3af;
+  }
+
+  /* Horario selection */
+  .schedules {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .schedule-option {
+    display: flex;
+    align-items: center;
+    background: var(--color-bg-1);
+    border-radius: var(--radius-base);
+    padding: 12px 8px;
+    gap: 10px;
+    position: relative;
+    box-shadow: var(--shadow-xs);
+    font-size: var(--font-size-base);
+    border: 1px solid var(--color-border);
+    opacity: 1;
+    cursor: pointer;
+    transition: border-color .2s;
+  }
+  .schedule-option.selected {
+    border: 2px solid var(--color-primary);
+    background: #DDF7F2;
+  }
+  .schedule-option.disabled {
+    opacity: .60;
+    pointer-events: none;
+    filter: grayscale(.7);
+    border: 1px dashed var(--color-border);
+    background: #F8F8F8;
+  }
+  .schedule-radio {
+    appearance: none;
+    outline: none;
+    border: 1.5px solid var(--color-primary);
+    width: 20px;height: 20px; min-width:20px;
+    border-radius: 50%;
+    background: #fff;
+    display: inline-block;
+    margin-right: 10px;
+    position: relative;
+    cursor: pointer;
+  }
+  .schedule-radio:checked {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+  .schedule-radio:checked:after {
+    content: "";
+    display: block;
+    width: 10px;height: 10px;
+    border-radius: 50%;
+    background: #fff;
+    position: absolute;
+    left: 5px; top: 5px;
+  }
+  .schedule-label {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+  }
+  .schedule-spots {
+    font-size: var(--font-size-sm);
+    color: var(--color-success);
+    font-weight: 500;
+  }
+  .schedule-full {
+    font-size: var(--font-size-sm);
+    color: var(--color-error);
+    font-weight: 500;
+  }
+  .actions-row {
+    margin-top: 18px;
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+  }
+  /* Confirmation actions */
+  .confirmation-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .btn-action {
+    background: #EEF7F7;
+    color: var(--color-primary);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    border-radius: var(--radius-base);
+    padding: 8px 22px;
+    border: none;
+    margin: 2px 0;
+    cursor: pointer;
+  }
+  .btn-action:focus { box-shadow: var(--focus-ring); }
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding-top: 48px;
+  }
+  .icon-empty {
+    font-size: 36px;
+    color: #DB4545;
+    background: #FDECEC;
+    border-radius: 50%;
+    padding: 16px;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+  .failed-req-list {
+    list-style: none;
+    margin: 8px 0 12px 0;
+    padding: 0;
+    color: var(--color-error);
+  }
+  .suggestions-list {
+    margin: 10px 0 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .suggestion-item {
+    font-size: var(--font-size-base);
+    color: var(--color-primary);
+    margin-bottom: 4px;
+  }
+  /* Focus accessibility for all buttons/inputs */
+  button:focus-visible, input:focus-visible {
+    outline: 2px solid var(--color-primary);
+  }
+  </style>
+  <!-- Material Icons CDN for icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+</head>
+<body>
+  <main class="mobile-frame" id="mobileFrame" aria-label="Flujo de inscripción a taller universitario">
+    <!-- Step Indicator (shown in every step except confirmation/empty) -->
+    <div class="step-indicator" id="stepIndicator" aria-label="Indicador del paso">
+      <span class="step-dot" id="sd-1"></span>
+      <span class="step-dot" id="sd-2"></span>
+      <span class="step-dot" id="sd-3"></span>
+      <span class="step-dot" id="sd-4"></span>
+    </div>
+    <!-- Landing / Explore Workshop -->
+    <section class="screen active" id="screen-explore" role="region" aria-labelledby="explore-title">
+      <h1 class="screen-title" id="explore-title">Explorar Taller</h1>
+      <div class="workshop-title">React: Build Web Apps</div>
+      <div class="workshop-date">28 Nov – 5 Dic 2025</div>
+      <div class="workshop-spots">Disponibles: 25/30</div>
+      <div class="workshop-price">$25 USD</div>
+      <ul class="requirements-list" aria-label="Requisitos">
+        <li><span class="material-icons icon-check" aria-hidden="true">check_circle</span>Ingeniería o carreras afines</li>
+        <li><span class="material-icons icon-check" aria-hidden="true">check_circle</span>2do semestre en adelante</li>
+        <li><span class="material-icons icon-check" aria-hidden="true">check_circle</span>Haber aprobado JavaScript</li>
+      </ul>
+      <button class="btn" id="btnVerify" aria-label="Verificar elegibilidad">Verificar elegibilidad</button>
+      <a href="#" class="help-link" id="helpLink">¿Necesitas ayuda?</a>
+    </section>
+
+    <!-- Eligibility Verification -->
+    <section class="screen" id="screen-eligibility" role="region" aria-labelledby="eligibilidad-title">
+      <h1 class="screen-title" id="eligibilidad-title">Verificación</h1>
+      <ul class="validations-list" aria-label="Validaciones de requisitos">
+        <li><span class="material-icons">task_alt</span>Carrera validada</li>
+        <li><span class="material-icons">task_alt</span>Nivel validado</li>
+        <li><span class="material-icons">task_alt</span>JavaScript aprobado</li>
+      </ul>
+      <div class="validation-success">¡Cumples los requisitos!</div>
+      <button class="btn" id="btnProceed" aria-label="Proceder a inscripción">Proceder a inscripción</button>
+      <button class="btn btn-secondary" id="btnBackElig" aria-label="Atrás">Atrás</button>
+    </section>
+
+    <!-- Registration Form Step 1 -->
+    <section class="screen" id="screen-form-1" role="region" aria-labelledby="form1-title">
+      <div class="progress-bar"><div class="progress-bar__fill" style="width:50%"></div></div>
+      <h1 class="screen-title" id="form1-title">Datos Personales</h1>
+      <form class="form" id="formPersonal" autocomplete="on" novalidate>
+        <label class="form-label" for="inputName">Nombre</label>
+        <input id="inputName" class="form-input" type="text"
+               placeholder="Carlos García" aria-label="Nombre"/>
+        <span class="input-check material-icons" aria-hidden="true">check_circle</span>
+
+        <label class="form-label" for="inputEmail">Email</label>
+        <input id="inputEmail" class="form-input" type="email"
+               placeholder="carlos@ucsg.edu.ec" aria-label="Email"/>
+        <span class="input-check material-icons" aria-hidden="true">check_circle</span>
+
+        <label class="form-label" for="inputPhone">Teléfono <span style="font-weight:400;color:var(--color-text-secondary)">(opcional)</span></label>
+        <div class="phone-placeholder">Ej: +593 991234567</div>
+        <input id="inputPhone" class="form-input" type="tel" placeholder="+593 991234567" aria-label="Teléfono"/>
+        <div class="form-error" id="phoneError" style="display:none">Por favor ingresa un teléfono válido</div>
+      </form>
+      <div class="actions-row">
+        <button class="btn" id="btnNextForm" aria-label="Siguiente paso">Siguiente paso</button>
+        <button class="btn btn-secondary" id="btnBackForm1" aria-label="Atrás">Atrás</button>
+      </div>
+    </section>
+
+    <!-- Registration Form Step 2 -->
+    <section class="screen" id="screen-form-2" role="region" aria-labelledby="form2-title">
+      <div class="progress-bar"><div class="progress-bar__fill" style="width:100%"></div></div>
+      <h1 class="screen-title" id="form2-title">Horario</h1>
+      <form class="form" id="formSchedule">
+        <div class="schedules">
+          <label class="schedule-option" for="schedule1">
+            <input type="radio" class="schedule-radio" name="schedule" id="schedule1" value="sched1"/>
+            <span class="schedule-label">Martes 28 Nov<br><span style="font-weight:400">14:00-15:30, Aula 201</span></span>
+            <span class="schedule-spots">8 lugares</span>
+          </label>
+
+          <label class="schedule-option selected" for="schedule2">
+            <input type="radio" class="schedule-radio" name="schedule" id="schedule2" value="sched2" checked />
+            <span class="schedule-label">Jueves 30 Nov<br><span style="font-weight:400">16:00-17:30, Aula 201</span></span>
+            <span class="schedule-spots">3 lugares</span>
+          </label>
+
+          <label class="schedule-option" for="schedule3">
+            <input type="radio" class="schedule-radio" name="schedule" id="schedule3" value="sched3"/>
+            <span class="schedule-label">Viernes 1 Dic<br><span style="font-weight:400">09:00-10:30, Aula 105</span></span>
+            <span class="schedule-spots">2 lugares</span>
+          </label>
+
+          <label class="schedule-option disabled" for="schedule4">
+            <input type="radio" class="schedule-radio" name="schedule" id="schedule4" value="sched4" disabled />
+            <span class="schedule-label">Sábado 2 Dic<br><span style="font-weight:400">10:00-11:30, Aula 201</span></span>
+            <span class="schedule-full">Lleno</span>
+          </label>
+        </div>
+      </form>
+      <div class="actions-row">
+        <button class="btn" id="btnConfirmSchedule" aria-label="Confirmar inscripción">Confirmar inscripción</button>
+        <button class="btn btn-secondary" id="btnBackForm2" aria-label="Atrás">Atrás</button>
+      </div>
+    </section>
+
+    <!-- Success Confirmation -->
+    <section class="screen" id="screen-success" role="region" aria-labelledby="success-title">
+      <div class="screen-success">
+        <span class="icon-success material-icons" aria-label="Éxito">check_circle</span>
+        <div class="confirmation-num">¡Inscripción confirmada!</div>
+        <div class="confirmation-num">#TALLER-2025-0847</div>
+        <div class="workshop-title">React: Build Web Apps</div>
+        <div class="workshop-date">Jueves 30 Nov, 16:00-17:30</div>
+        <div class="workshop-price">Aula 201, Bloque C</div>
+        <div class="confirmation-email">
+          <span class="material-icons" style="font-size:16px;vertical-align:middle">mail</span>
+          Enviado a
+          <a href="mailto:carlos@ucsg.edu.ec" id="confirmEmailLink">carlos@ucsg.edu.ec</a>
+        </div>
+        <div class="reminder-msg">Te recordaremos 24h antes del taller</div>
+        <div class="confirmation-actions">
+          <button class="btn-action" id="btnCalendar"><span class="material-icons" style="font-size:17px;vertical-align:middle">event</span> Añadir a calendario</button>
+          <button class="btn-action" id="btnShare"><span class="material-icons" style="font-size:17px;vertical-align:middle">share</span> Compartir</button>
+          <button class="btn-action" id="btnToMyWorkshops">Ir a mis inscripciones</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Empty State: No Eligibility -->
+    <section class="screen" id="screen-empty" role="region" aria-labelledby="empty-title">
+      <div class="empty-state">
+        <span class="icon-empty material-icons" aria-label="Sin elegibilidad">block</span>
+        <div class="confirmation-num">No cumples los requisitos</div>
+        <ul class="failed-req-list" id="failedReqList" aria-label="Requisitos no cumplidos">
+          <!-- Failed requirements rendered via JS -->
+        </ul>
+        <div class="reminder-msg" style="background:#FDECEC;color:var(--color-error)">
+          Puedes revisar otras alternativas de talleres:
+        </div>
+        <ul class="suggestions-list">
+          <li class="suggestion-item">Frontend Avanzado</li>
+          <li class="suggestion-item">NodeJS para backend</li>
+          <li class="suggestion-item">Diseño UX/UI básico</li>
+        </ul>
+        <button class="btn" id="btnBackToExplore">Explorar otros talleres</button>
+      </div>
+    </section>
+
+  </main>
+  <script>
+    // App State & Data
+    const SCREENS = [
+      "screen-explore",
+      "screen-eligibility",
+      "screen-form-1",
+      "screen-form-2",
+      "screen-success",
+      "screen-empty"
+    ];
+    let currScreen = 0;
+    // Requirements for eligibility
+    const REQUIREMENTS = [
+      { id: "req1", text: "Ingeniería o carreras afines", met: true },
+      { id: "req2", text: "2do semestre en adelante", met: true },
+      { id: "req3", text: "Haber aprobado JavaScript", met: true },
+    ];
+    // Schedules
+    const SCHEDULES = [
+      { id: "sched1", day: "Martes 28 Nov", time: "14:00-15:30", location: "Aula 201", available: 8, status: "available" },
+      { id: "sched2", day: "Jueves 30 Nov", time: "16:00-17:30", location: "Aula 201", available: 3, status: "available", selected: true },
+      { id: "sched3", day: "Viernes 1 Dic", time: "09:00-10:30", location: "Aula 105", available: 2, status: "available" },
+      { id: "sched4", day: "Sábado 2 Dic", time: "10:00-11:30", location: "Aula 201", available: 0, status: "full" },
+    ];
+    // User data (estado compartido entre pantallas)
+    let userData = {
+      name: "Carlos García",
+      email: "carlos@ucsg.edu.ec",
+      phone: "",
+      carrera: "Ingeniería en Sistemas",
+      semester: 3,
+      requirements_met: {
+        carrera: true,
+        level: true,
+        javascript: true
+      }
+    };
+    // For step indicator, 4 main steps
+    function updateStepIndicator(idx) {
+      // Confirmation and empty state: hide indicator
+      const step = Math.min(idx, 3);
+      for (let i = 1; i <= 4; ++i) {
+        document.getElementById("sd-" + i).classList.remove("active");
+      }
+      if (idx < 4) {
+        for (let i = 1; i <= idx + 1; ++i) {
+          document.getElementById("sd-" + i).classList.add("active");
+        }
+        document.getElementById("stepIndicator").style.display = "flex";
+      } else {
+        document.getElementById("stepIndicator").style.display = "none";
+      }
+    }
+    function showScreen(name) {
+      SCREENS.forEach((id) => {
+        document.getElementById(id).classList.remove("active");
+      });
+      document.getElementById(name).classList.add("active");
+      currScreen = SCREENS.indexOf(name);
+      updateStepIndicator(currScreen);
+    }
+
+    // Explore -> Verify eligibility
+    document.getElementById("btnVerify").onclick = function () {
+      // Simulate eligibility check -- always ok for this data
+      const eligible = userData.requirements_met.carrera && userData.requirements_met.level && userData.requirements_met.javascript;
+      if (eligible) {
+        showScreen("screen-eligibility");
+      } else {
+        renderFailedRequirements();
+        showScreen("screen-empty");
+      }
+    };
+    // Help link
+    document.getElementById("helpLink").onclick = function(e) {
+      e.preventDefault();
+      alert("Comunícate con soporte estudiantil: soporte@universidad.edu.ec");
+    };
+    // Eligibility -> Proceed to form
+    document.getElementById("btnProceed").onclick = function () {
+      showScreen("screen-form-1");
+      document.getElementById("inputPhone").focus();
+    };
+    document.getElementById("btnBackElig").onclick = function () {
+      showScreen("screen-explore");
+    };
+
+    // Form 1/2 handlers
+    document.getElementById("btnNextForm").onclick = function () {
+      const nameInput = document.getElementById("inputName");
+      const emailInput = document.getElementById("inputEmail");
+      const phoneInput = document.getElementById("inputPhone");
+
+      const nameVal = nameInput.value.trim();
+      const emailVal = emailInput.value.trim();
+      const phoneVal = phoneInput.value.trim();
+
+      // Validación simple de teléfono (igual que antes)
+      if (phoneVal.length > 0 && !/^\+593\s?\d{9}$/.test(phoneVal)) {
+        document.getElementById("phoneError").style.display = "block";
+        phoneInput.setAttribute("aria-invalid", "true");
+        phoneInput.focus();
+        return;
+      }
+      document.getElementById("phoneError").style.display = "none";
+      phoneInput.removeAttribute("aria-invalid");
+
+      // Guardar datos en el estado global
+      if (nameVal) userData.name = nameVal;
+      if (emailVal) userData.email = emailVal;
+      userData.phone = phoneVal;
+
+      showScreen("screen-form-2");
+    };
+    document.getElementById("btnBackForm1").onclick = function () {
+      showScreen("screen-eligibility");
+    };
+
+    // Horario handlers
+    document.getElementById("btnConfirmSchedule").onclick = function () {
+      // Por si el usuario volvió atrás y cambió el email
+      const latestEmail = document.getElementById("inputEmail").value.trim();
+      if (latestEmail) userData.email = latestEmail;
+
+      // Actualizar el mailto y el texto del enlace en la pantalla de éxito
+      const confirmEmailLink = document.getElementById("confirmEmailLink");
+      confirmEmailLink.textContent = userData.email;
+      confirmEmailLink.href = "mailto:" + userData.email;
+
+      showScreen("screen-success");
+    };
+    document.getElementById("btnBackForm2").onclick = function () {
+      showScreen("screen-form-1");
+    };
+    // Success actions
+    document.getElementById("btnCalendar").onclick = function () {
+      alert("Evento añadido al calendario");
+    };
+    document.getElementById("btnShare").onclick = function () {
+      alert("Compartir función en desarrollo");
+    };
+    document.getElementById("btnToMyWorkshops").onclick = function () {
+      // Volver al inicio (pantalla 1)
+      showScreen("screen-explore");
+    };
+    // Empty state
+    document.getElementById("btnBackToExplore").onclick = function () {
+      showScreen("screen-explore");
+    };
+    // Schedule selection interactivity
+    const scheduleRadios = document.querySelectorAll('.schedule-radio');
+    scheduleRadios.forEach(radio => {
+      radio.addEventListener('change', e => {
+        document.querySelectorAll('.schedule-option').forEach(opt => opt.classList.remove('selected'));
+        e.target.closest('.schedule-option').classList.add('selected');
+      });
+    });
+    // Accessibility: focus visible for transitions
+    function focusFirstInputOnScreen(screenId) {
+      const section = document.getElementById(screenId);
+      const inp = section.querySelector('input, button');
+      if (inp) inp.focus();
+    }
+    // Render failed requirements for empty state
+    function renderFailedRequirements() {
+      // This simulation assumes all requirements are met
+      // But for demo, show as if not met
+      const failedList = document.getElementById('failedReqList');
+      failedList.innerHTML = '';
+      REQUIREMENTS.forEach(r => {
+        if (!r.met) failedList.innerHTML += `<li>${r.text}</li>`;
+      });
+    }
+    // Init on load
+    updateStepIndicator(0);
+  </script>
+</body>
+</html>
